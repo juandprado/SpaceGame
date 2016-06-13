@@ -1,6 +1,6 @@
 #include <math.h>
 #include "Definitions.h"
-#include "Asteroid.h"
+//#include "Asteroid.h"
 
 sf::Image Asteroid::asteroidImg;
 

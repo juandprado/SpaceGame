@@ -2,12 +2,12 @@
 
 #include "GameObject.h"
 
-class Projectile : public GameObject
+class Asteroid : public GameObject
 {
 public:
 
-    Projectile(GameManager * ownerGame, sf::Vector2f initialPosition, float initialOrientation);
-    virtual ~Projectile();
+    Asteroid(GameManager * ownerGame, sf::Vector2f initialPosition, float initialOrientation);
+    virtual ~Asteroid();
 
     virtual void Update(float deltaTime);
 
@@ -15,8 +15,8 @@ public:
 
 protected:
 
-    float speed;
-    float lifeTime;
+    float health;
+    float size;
 
-    static sf::Image projectileImg;
+    static sf::Image asteroidImg;
 };

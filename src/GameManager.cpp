@@ -1,7 +1,7 @@
 #include "GameManager.h"
 #include "SpaceShip.h"
 #include "Projectile.h"
-#include "Asteroid.h"
+//#include "Asteroid.h"
 
 GameManager::GameManager(sf::RenderWindow & appWindow) :
     renderWindow(appWindow)
