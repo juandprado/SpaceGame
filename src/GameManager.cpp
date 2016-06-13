@@ -1,6 +1,7 @@
 #include "GameManager.h"
 #include "SpaceShip.h"
 #include "Projectile.h"
+#include "Asteroid.h"
 
 GameManager::GameManager(sf::RenderWindow & appWindow) :
     renderWindow(appWindow)
@@ -53,6 +54,9 @@ void GameManager::UpdateGame(float deltaTime)
 
     spaceShip->SetRotationDirection(rotationDir);
 
+    if (input.IsKeyDown(sf::Key::Space))
+        spaceShip->EvalProjectile();
+
     activeGameObjects.insert(activeGameObjects.end(),
                              newGameObjects.begin(),
                              newGameObjects.end());
@@ -62,11 +66,16 @@ void GameManager::UpdateGame(float deltaTime)
          it != activeGameObjects.end(); ++it)
     {
         (*it)->Update(deltaTime);
+        if (it == activeGameObjects.end())
+        {
+            break;
+        }
     }
 }
 
 void GameManager::DrawGame()
 {
+    
     renderWindow.Draw(backgroundSprite);
 
     for (std::vector<GameObject *>::iterator it = activeGameObjects.begin();
@@ -74,6 +83,7 @@ void GameManager::DrawGame()
     {
         (*it)->Draw(renderWindow);
     }
+    
 }
 
 void GameManager::RegisterGameObject(GameObject * newGameObject)
@@ -104,4 +114,5 @@ void GameManager::RemoveGameObject(GameObject * gameObjectToRemove)
             break;
         }
     }
+
 }

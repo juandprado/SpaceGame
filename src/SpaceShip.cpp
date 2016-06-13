@@ -14,7 +14,7 @@ SpaceShip::SpaceShip(GameManager * ownerGame, sf::Vector2f initialPosition)
     sprite.SetScale(1.0f, 1.0f);
     spriteRotation = -90;
     rotationDir = 0;
-    weaponTimer = 2;
+    weaponTimer = 1;
 }
 
 SpaceShip::~SpaceShip()
@@ -27,6 +27,16 @@ void SpaceShip::SetRotationDirection(float direction)
     rotationDir = direction;
 }
 
+void SpaceShip::EvalProjectile()
+{
+    if (weaponTimer < 0)
+    {
+        Projectile * projectile = new Projectile(gameManager, position, orientation);
+        gameManager->RegisterGameObject(projectile);
+        weaponTimer = 1;
+    }
+}
+
 void SpaceShip::Update(float deltaTime)
 {
     GameObject::Update(deltaTime);
@@ -34,12 +44,7 @@ void SpaceShip::Update(float deltaTime)
     orientation += deltaTime * rotationDir * 90;
 
     weaponTimer -= deltaTime;
-    if (weaponTimer < 0)
-    {
-        Projectile * projectile = new Projectile(gameManager, position, orientation);
-        gameManager->RegisterGameObject(projectile);
-        weaponTimer = 2;
-    }
+    
 }
 
 void SpaceShip::Draw(sf::RenderWindow & render)

@@ -1,29 +1,29 @@
 #include <math.h>
 #include "Definitions.h"
-#include "Projectile.h"
+#include "Asteroid.h"
 
-sf::Image Projectile::projectileImg;
+sf::Image Asteroid::asteroidImg;
 
-Projectile::Projectile(GameManager * ownerGame, sf::Vector2f initialPosition, float initialOrientation) :
+Asteroid::Asteroid(GameManager * ownerGame, sf::Vector2f initialPosition, float initialOrientation) :
     GameObject(ownerGame)
 {
     gameManager = ownerGame;
     position = initialPosition;
     orientation = initialOrientation;
-    speed = 100;
-    lifeTime = 3.0f;
-    sprite.SetImage(projectileImg);
+    health = 100;
+    size = 3.0f;
+    sprite.SetImage(asteroidImg);
     sprite.SetCenter(sprite.GetSize().x / 2, sprite.GetSize().y / 2);
     sprite.SetScale(1.0f, 1.0f);
     spriteRotation = -90;
 }
 
-Projectile::~Projectile()
+Asteroid::~Asteroid()
 {
 
 }
 
-void Projectile::Update(float deltaTime)
+void Asteroid::Update(float deltaTime)
 {
     GameObject::Update(deltaTime);
 
@@ -33,19 +33,19 @@ void Projectile::Update(float deltaTime)
     direction.x = cos(angle);
     direction.y = sin(angle);
 
-    position += direction * speed * deltaTime;
+    //position += direction * speed * deltaTime;
 
-    lifeTime -= deltaTime;
-    if (lifeTime<0)
+    //lifeTime -= deltaTime;
+    /*if (lifeTime<0)
     {
         Destroy();
-    }
+    }*/
     
 }
 
-bool Projectile::LoadImages()
+bool Asteroid::LoadImages()
 {
-    if (!projectileImg.LoadFromFile("graphics/Projectile01.png"))
+    if (!asteroidImg.LoadFromFile("graphics/Asteroid01.png"))
         return false;
 
     return true;

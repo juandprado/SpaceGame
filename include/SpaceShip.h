@@ -10,6 +10,7 @@ public:
     virtual ~SpaceShip();
 
     void SetRotationDirection(float direction);
+    void EvalProjectile();
 
     virtual void Update(float deltaTime);
     virtual void Draw(sf::RenderWindow & render);
