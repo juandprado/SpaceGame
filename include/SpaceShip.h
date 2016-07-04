@@ -21,6 +21,6 @@ private:
 
     static sf::Image spaceShipImg;
 
-    float rotationDir;
-    float weaponTimer;
+    float rotationDir; // Direccion de rotacion de la nave
+    float weaponTimer; // Variable encargada de almacenar el tiempo minimo entre cada disparo
 };

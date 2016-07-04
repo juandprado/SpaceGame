@@ -23,6 +23,8 @@ class GameManager
         void RegisterGameObject(GameObject * newGameObject);
         void RemoveGameObject(GameObject * gameObjectToRemove);
 
+        void LaunchAsteroids();
+
     protected:
 
         sf::RenderWindow & renderWindow;

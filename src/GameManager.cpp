@@ -1,7 +1,7 @@
 #include "GameManager.h"
 #include "SpaceShip.h"
 #include "Projectile.h"
-//#include "Asteroid.h"
+#include "Asteroid.h"
 
 GameManager::GameManager(sf::RenderWindow & appWindow) :
     renderWindow(appWindow)
@@ -28,7 +28,10 @@ bool GameManager::Initialize()
     if (!Projectile::LoadImages())
         return false;
 
-    spaceShip = new SpaceShip(this, sf::Vector2f(300, 300));
+    if (!Asteroid::LoadImages())
+        return false;
+
+    spaceShip = new SpaceShip(this, sf::Vector2f(renderWindow.GetWidth()/2, renderWindow.GetHeight()/2));
     RegisterGameObject(spaceShip);
 
     return true;
@@ -40,12 +43,19 @@ void GameManager::FreeResources()
         delete spaceShip;
 }
 
+void GameManager::LaunchAsteroids(){
+//    Projectile * projectile = new Projectile(gameManager, position, orientation);
+    Asteroid * asteroid = new Asteroid(this, sf::Vector2f(renderWindow.GetWidth()/2, renderWindow.GetHeight()/2), 0);
+    RegisterGameObject(asteroid);
+}
+
 void GameManager::UpdateGame(float deltaTime)
 {
     const sf::Input & input = renderWindow.GetInput();
 
     float rotationDir = 0;
 
+    // Se establecen los eventos para el movimiento de la nave
     if (input.IsKeyDown(sf::Key::Left))
         rotationDir += 1.0f;
 
@@ -56,6 +66,9 @@ void GameManager::UpdateGame(float deltaTime)
 
     if (input.IsKeyDown(sf::Key::Space))
         spaceShip->EvalProjectile();
+
+    if (input.IsKeyDown(sf::Key::Down))
+        LaunchAsteroids();
 
     activeGameObjects.insert(activeGameObjects.end(),
                              newGameObjects.begin(),
@@ -75,9 +88,9 @@ void GameManager::UpdateGame(float deltaTime)
 
 void GameManager::DrawGame()
 {
-    
+    // Se dibuja el fondo
     renderWindow.Draw(backgroundSprite);
-
+    // Se dibuja cada uno de los objetos activos
     for (std::vector<GameObject *>::iterator it = activeGameObjects.begin();
          it != activeGameObjects.end(); ++it)
     {
@@ -86,11 +99,13 @@ void GameManager::DrawGame()
     
 }
 
+// Agrega un objeto a la lista de objetos nuevos
 void GameManager::RegisterGameObject(GameObject * newGameObject)
 {
     newGameObjects.push_back(newGameObject);
 }
 
+// Elimina un objeto de la lista de objetos nuevos
 void GameManager::RemoveGameObject(GameObject * gameObjectToRemove)
 {
     for (std::vector<GameObject *>::iterator

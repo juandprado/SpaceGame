@@ -1,6 +1,8 @@
 #include "SpaceShip.h"
 #include "Projectile.h"
 #include "GameManager.h"
+#include "Asteroid.h"
+#include <stdio.h>
 
 sf::Image SpaceShip::spaceShipImg;
 
@@ -27,13 +29,17 @@ void SpaceShip::SetRotationDirection(float direction)
     rotationDir = direction;
 }
 
+// Encargado de lanzar un proyectil
 void SpaceShip::EvalProjectile()
 {
     if (weaponTimer < 0)
     {
         Projectile * projectile = new Projectile(gameManager, position, orientation);
-        gameManager->RegisterGameObject(projectile);
+        gameManager->RegisterGameObject(projectile); // Se registra la creacion del nuevo proyectil
         weaponTimer = 1;
+
+//        Asteroid * asteroid = new Asteroid(gameManager, position, orientation);
+//        gameManager->RegisterGameObject(asteroid);
     }
 }
 
@@ -42,6 +48,7 @@ void SpaceShip::Update(float deltaTime)
     GameObject::Update(deltaTime);
 
     orientation += deltaTime * rotationDir * 90;
+//    printf("%f\n",orientation);
 
     weaponTimer -= deltaTime;
     

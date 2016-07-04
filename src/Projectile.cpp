@@ -31,7 +31,7 @@ void Projectile::Update(float deltaTime)
 
     sf::Vector2f direction;
     direction.x = cos(angle);
-    direction.y = sin(angle);
+    direction.y = -sin(angle);
 
     position += direction * speed * deltaTime;
 

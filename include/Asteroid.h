@@ -17,6 +17,8 @@ protected:
 
     float health;
     float size;
+    float speed;
+    float lifeTime;
 
     static sf::Image asteroidImg;
 };

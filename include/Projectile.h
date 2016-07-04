@@ -15,8 +15,8 @@ public:
 
 protected:
 
-    float speed;
-    float lifeTime;
+    float speed; // Variable que contiene la velocidad de el proyectil
+    float lifeTime; // Vida de el proyectil
 
     static sf::Image projectileImg;
 };
