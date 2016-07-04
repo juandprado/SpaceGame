@@ -6,7 +6,7 @@ class Asteroid : public GameObject
 {
 public:
 
-    Asteroid(GameManager * ownerGame, sf::Vector2f initialPosition, float initialOrientation);
+    Asteroid(GameManager * ownerGame, sf::Vector2f initialPosition, float initialOrientation, int tipo);
     virtual ~Asteroid();
 
     virtual void Update(float deltaTime);
