@@ -45,7 +45,7 @@ void GameManager::FreeResources()
 
 void GameManager::LaunchAsteroids(){
 //    Projectile * projectile = new Projectile(gameManager, position, orientation);
-    Asteroid * asteroid = new Asteroid(this, sf::Vector2f(renderWindow.GetWidth()/2, renderWindow.GetHeight()/2), 0);
+    Asteroid * asteroid = new Asteroid(this, sf::Vector2f(renderWindow.GetWidth()/2, renderWindow.GetHeight()/2), 0, 0);
     RegisterGameObject(asteroid);
 }
 
