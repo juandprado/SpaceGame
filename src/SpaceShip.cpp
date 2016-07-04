@@ -16,7 +16,7 @@ SpaceShip::SpaceShip(GameManager * ownerGame, sf::Vector2f initialPosition)
     sprite.SetScale(1.0f, 1.0f);
     spriteRotation = -90;
     rotationDir = 0;
-    weaponTimer = 1;
+    weaponTimer = 0.3;
 }
 
 SpaceShip::~SpaceShip()
@@ -36,7 +36,7 @@ void SpaceShip::EvalProjectile()
     {
         Projectile * projectile = new Projectile(gameManager, position, orientation);
         gameManager->RegisterGameObject(projectile); // Se registra la creacion del nuevo proyectil
-        weaponTimer = 1;
+        weaponTimer = 0.3;
 
 //        Asteroid * asteroid = new Asteroid(gameManager, position, orientation);
 //        gameManager->RegisterGameObject(asteroid);
