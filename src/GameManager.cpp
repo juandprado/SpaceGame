@@ -128,7 +128,7 @@ void GameManager::UpdateGame(float deltaTime)
                     radio1 / 2,
                     activeGameObjects[j]->GetSpacePosition(),
                     radio2 / 2)){
-                activeGameObjects[j]->Destroy();
+                activeGameObjects[i]->Destroy();
                 printf("jojojojo\n");
             }
         }

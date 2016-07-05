@@ -45,17 +45,6 @@ void SpaceShip::EvalProjectile()
     }
 }
 
-float SpaceShip::GetSpaceWidth(){
-    return sprite.GetSize().x;
-}
-
-float SpaceShip::GetSpaceHeight(){
-    return sprite.GetSize().y;
-}
-
-sf::Vector2f SpaceShip::GetSpacePosition(){
-    return sprite.GetPosition();
-}
 
 void SpaceShip::Update(float deltaTime)
 {

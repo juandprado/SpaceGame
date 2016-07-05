@@ -18,6 +18,7 @@ Asteroid::Asteroid(GameManager * ownerGame, sf::Vector2f initialPosition, float 
         size = 0.25f;
         speed = 70;
     }
+    type = tipo;
     gameManager = ownerGame;
     position = initialPosition;
     orientation = initialOrientation;
@@ -48,7 +49,24 @@ void Asteroid::Update(float deltaTime)
     direction.y = sin(angle);
 
     position += direction * speed * deltaTime;
+
+    if (health<=0){
+        Destroy();
+    }
     
+}
+
+void Asteroid::Damage(){
+    health -= 50;
+}
+
+void Asteroid::Destroy()
+{   
+    GameObject::Destroy();
+    if (type == 0) {
+        gameManager->LaunchAsteroids(GetSpacePosition().x, GetSpacePosition().y, (rand() % (int)(360 + 1)), 1);
+        gameManager->LaunchAsteroids(GetSpacePosition().x, GetSpacePosition().y, (rand() % (int)(360 + 1)), 1);
+    }
 }
 
 bool Asteroid::LoadImages()

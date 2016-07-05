@@ -16,9 +16,7 @@ public:
     virtual void Draw(sf::RenderWindow & render);
 
     static bool LoadImages();
-    float GetSpaceWidth();
-    float GetSpaceHeight();
-    sf::Vector2f GetSpacePosition();
+    
 
 private:
 

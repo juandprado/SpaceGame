@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
+#include <stdlib.h>
 
 class Asteroid : public GameObject
 {
@@ -13,12 +14,16 @@ public:
 
     static bool LoadImages();
 
+    void Destroy();
+
+    void Damage();
+
 protected:
 
     float health;
     float size;
     float speed;
-    float lifeTime;
+    int type;
 
     static sf::Image asteroidImg;
 };
