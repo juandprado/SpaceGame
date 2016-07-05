@@ -21,7 +21,7 @@ public:
     typedef enum {
         SPACESHIP, ASTEROID, PROJECTILE
     } Type;
-//
+
     Type type;
 
     float GetSpaceWidth();

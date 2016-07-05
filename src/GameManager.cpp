@@ -111,10 +111,22 @@ void GameManager::UpdateGame(float deltaTime)
 
     for(int i = 0; i < activeGameObjects.size(); i++){
         for (int j = i; j < activeGameObjects.size(); j++){
+            float radio1 = activeGameObjects[i]->GetSpaceWidth();
+            if(radio1 < activeGameObjects[i]->GetSpaceHeight()){
+                radio1 = activeGameObjects[i]->GetSpaceHeight();
+            }
+
+            float radio2 = activeGameObjects[j]->GetSpaceWidth();
+            if(radio2 < activeGameObjects[j]->GetSpaceHeight()){
+                radio2 = activeGameObjects[j]->GetSpaceHeight();
+            }
             if(activeGameObjects[i]->type == GameObject::PROJECTILE &&
                     activeGameObjects[j]->type == GameObject::ASTEROID &&
-                    CircleCollision(activeGameObjects[i]->)){
-                printf();
+                    CircleCollision(activeGameObjects[i]->GetSpacePosition(),
+                    radio1,
+                    activeGameObjects[j]->GetSpacePosition(),
+                    radio2)){
+                printf("jojojojo\n");
             }
         }
     }
