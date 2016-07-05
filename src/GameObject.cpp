@@ -21,6 +21,18 @@ void GameObject::Destroy()
     gameManager->RemoveGameObject(this);
 }
 
+float GameObject::GetSpaceWidth(){
+    return sprite.GetSize().x;
+}
+
+float GameObject::GetSpaceHeight(){
+    return sprite.GetSize().y;
+}
+
+sf::Vector2f GameObject::GetSpacePosition(){
+    return sprite.GetPosition();
+}
+
 void GameObject::Update(float deltaTime)
 {
 

@@ -18,6 +18,10 @@ public:
     virtual void Update(float deltaTime);
     virtual void Draw(sf::RenderWindow & render);
 
+    float GetSpaceWidth();
+    float GetSpaceHeight();
+    sf::Vector2f GetSpacePosition();
+
 protected:
 
     GameManager * gameManager;
