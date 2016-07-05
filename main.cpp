@@ -1,9 +1,12 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "GameManager.h"
+#include <stdlib.h>
+#include <time.h>
 
 int main()
 {
+    srand(time(NULL));
     // Create the main window
     sf::RenderWindow app(sf::VideoMode(800, 600), "Space Game");
 
