@@ -3,6 +3,9 @@
 
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include <stdlib.h>
+#include <iostream>
+using namespace std;
 
 class GameObject;
 class SpaceShip;
@@ -23,7 +26,8 @@ class GameManager
         void RegisterGameObject(GameObject * newGameObject);
         void RemoveGameObject(GameObject * gameObjectToRemove);
 
-        void LaunchAsteroids();
+        void LaunchRandomAsteroids();
+        void LaunchAsteroids(float x, float y, int ori, int tipo);
 
     protected:
 
@@ -36,6 +40,8 @@ class GameManager
 
         std::vector<GameObject *> activeGameObjects;
         std::vector<GameObject *> newGameObjects;
+
+        float asteroidTimer;
 };
 
 #endif // GAMEMANAGER_H

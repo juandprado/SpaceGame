@@ -7,6 +7,7 @@ GameManager::GameManager(sf::RenderWindow & appWindow) :
     renderWindow(appWindow)
 {
     spaceShip = NULL;
+    asteroidTimer = 10.0f;
 }
 
 GameManager::~GameManager()
@@ -34,6 +35,10 @@ bool GameManager::Initialize()
     spaceShip = new SpaceShip(this, sf::Vector2f(renderWindow.GetWidth()/2, renderWindow.GetHeight()/2));
     RegisterGameObject(spaceShip);
 
+    for (int i=0; i<3; i++){
+        LaunchRandomAsteroids();
+    }
+
     return true;
 }
 
@@ -43,9 +48,34 @@ void GameManager::FreeResources()
         delete spaceShip;
 }
 
-void GameManager::LaunchAsteroids(){
+void GameManager::LaunchRandomAsteroids(){
+    bool flag = true;
+    int xrand = 0;
+    int yrand = 0;
+
+    //Se calcula la posicion del nuevo asteroide para que no se solape con la nave
+    sf::Vector2f shipPos = spaceShip->GetSpacePosition();
+    while (flag){
+        xrand = ((rand() % (int)(renderWindow.GetWidth() + 1)));
+        if ( (xrand < (shipPos.x-60) ) || ( xrand > (shipPos.x + spaceShip->GetSpaceWidth() + 60) )){
+            flag = false;
+        }
+    }
+
+    flag = true;
+    while (flag){
+        yrand = ((rand() % (int)(renderWindow.GetHeight() + 1)));
+        if ( (yrand < (shipPos.y-60) ) || ( yrand > (shipPos.y + spaceShip->GetSpaceWidth() + 60) )){
+            flag = false;
+        }
+    }
+
+    LaunchAsteroids(xrand , yrand, (rand() % (int)(360 + 1)), (rand() % (int)(1 + 1)));
+}
+
+void GameManager::LaunchAsteroids(float x, float y, int ori, int tipo){
 //    Projectile * projectile = new Projectile(gameManager, position, orientation);
-    Asteroid * asteroid = new Asteroid(this, sf::Vector2f(renderWindow.GetWidth()/2, renderWindow.GetHeight()/2), 0, 0);
+    Asteroid * asteroid = new Asteroid(this, sf::Vector2f(x, y), ori, tipo);
     RegisterGameObject(asteroid);
 }
 
@@ -66,9 +96,12 @@ void GameManager::UpdateGame(float deltaTime)
 
     if (input.IsKeyDown(sf::Key::Space))
         spaceShip->EvalProjectile();
-
-    if (input.IsKeyDown(sf::Key::Down))
-        LaunchAsteroids();
+    //Se calcula el timer para nuevos astaroides y se crean nuevos
+    asteroidTimer -= deltaTime;
+    if (asteroidTimer<0.0f){
+        LaunchRandomAsteroids();
+        asteroidTimer = 10.0f;
+    }
 
     activeGameObjects.insert(activeGameObjects.end(),
                              newGameObjects.begin(),
