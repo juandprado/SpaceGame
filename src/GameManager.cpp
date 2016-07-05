@@ -8,7 +8,8 @@ GameManager::GameManager(sf::RenderWindow & appWindow) :
     renderWindow(appWindow)
 {
     spaceShip = NULL;
-    asteroidTimer = 10.0f;
+    asteroidTimer = 3.0f;
+    contador = 0;
 }
 
 GameManager::~GameManager()
@@ -101,7 +102,7 @@ void GameManager::UpdateGame(float deltaTime)
     asteroidTimer -= deltaTime;
     if (asteroidTimer<0.0f){
         LaunchRandomAsteroids();
-        asteroidTimer = 10.0f;
+        asteroidTimer = 3.0f;
     }
 
     activeGameObjects.insert(activeGameObjects.end(),
@@ -110,7 +111,7 @@ void GameManager::UpdateGame(float deltaTime)
     newGameObjects.clear();
 
     for(int i = 0; i < activeGameObjects.size(); i++){
-        for (int j = i; j < activeGameObjects.size(); j++){
+        for (int j = 0; j < activeGameObjects.size(); j++){
             float radio1 = activeGameObjects[i]->GetSpaceWidth();
             if(radio1 < activeGameObjects[i]->GetSpaceHeight()){
                 radio1 = activeGameObjects[i]->GetSpaceHeight();
@@ -120,6 +121,7 @@ void GameManager::UpdateGame(float deltaTime)
             if(radio2 < activeGameObjects[j]->GetSpaceHeight()){
                 radio2 = activeGameObjects[j]->GetSpaceHeight();
             }
+
             if(activeGameObjects[i]->type == GameObject::PROJECTILE &&
                     activeGameObjects[j]->type == GameObject::ASTEROID &&
                     CircleCollision(activeGameObjects[i]->GetSpacePosition(),

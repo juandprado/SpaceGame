@@ -30,6 +30,8 @@ class GameManager
         void LaunchAsteroids(float x, float y, int ori, int tipo);
         bool CircleCollision(sf::Vector2f p1, float radius1, sf::Vector2f p2, float radius2);
 
+        int contador;
+
     protected:
 
         sf::RenderWindow & renderWindow;
