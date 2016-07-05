@@ -10,7 +10,7 @@ Projectile::Projectile(GameManager * ownerGame, sf::Vector2f initialPosition, fl
     gameManager = ownerGame;
     position = initialPosition;
     orientation = initialOrientation;
-    speed = 100;
+    speed = 300;
     lifeTime = 3.0f;
     sprite.SetImage(projectileImg);
     sprite.SetCenter(sprite.GetSize().x / 2, sprite.GetSize().y / 2);
