@@ -16,6 +16,8 @@ Projectile::Projectile(GameManager * ownerGame, sf::Vector2f initialPosition, fl
     sprite.SetCenter(sprite.GetSize().x / 2, sprite.GetSize().y / 2);
     sprite.SetScale(1.0f, 1.0f);
     spriteRotation = -90;
+
+    type = PROJECTILE;
 }
 
 Projectile::~Projectile()

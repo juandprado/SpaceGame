@@ -2,6 +2,7 @@
 #include "SpaceShip.h"
 #include "Projectile.h"
 #include "Asteroid.h"
+#include <stdio.h>
 
 GameManager::GameManager(sf::RenderWindow & appWindow) :
     renderWindow(appWindow)
@@ -108,6 +109,16 @@ void GameManager::UpdateGame(float deltaTime)
                              newGameObjects.end());
     newGameObjects.clear();
 
+    for(int i = 0; i < activeGameObjects.size(); i++){
+        for (int j = i; j < activeGameObjects.size(); j++){
+            if(activeGameObjects[i]->type == GameObject::PROJECTILE &&
+                    activeGameObjects[j]->type == GameObject::ASTEROID &&
+                    CircleCollision(activeGameObjects[i]->)){
+                printf();
+            }
+        }
+    }
+
     for (std::vector<GameObject *>::iterator it = activeGameObjects.begin();
          it != activeGameObjects.end(); ++it)
     {
@@ -163,4 +174,11 @@ void GameManager::RemoveGameObject(GameObject * gameObjectToRemove)
         }
     }
 
+}
+
+bool GameManager::CircleCollision(sf::Vector2f p1, float radius1, sf::Vector2f p2, float radius2){
+    float sumRadius = radius1 + radius2;
+    sf::Vector2f delta = p2 - p1;
+    float distanceSquare = delta.x * delta.x + delta.y * delta.y;
+    return (distanceSquare < sumRadius * sumRadius);
 }

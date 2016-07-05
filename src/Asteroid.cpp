@@ -28,7 +28,7 @@ Asteroid::Asteroid(GameManager * ownerGame, sf::Vector2f initialPosition, float 
     sprite.SetScale(size, size);
     spriteRotation = -90;
 
-
+    type = ASTEROID;
 }
 
 Asteroid::~Asteroid()

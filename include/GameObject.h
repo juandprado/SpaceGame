@@ -18,6 +18,12 @@ public:
     virtual void Update(float deltaTime);
     virtual void Draw(sf::RenderWindow & render);
 
+    typedef enum {
+        SPACESHIP, ASTEROID, PROJECTILE
+    } Type;
+//
+    Type type;
+
     float GetSpaceWidth();
     float GetSpaceHeight();
     sf::Vector2f GetSpacePosition();

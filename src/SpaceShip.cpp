@@ -17,6 +17,8 @@ SpaceShip::SpaceShip(GameManager * ownerGame, sf::Vector2f initialPosition)
     spriteRotation = -90;
     rotationDir = 0;
     weaponTimer = 0.3;
+
+    type = SPACESHIP;
 }
 
 SpaceShip::~SpaceShip()
