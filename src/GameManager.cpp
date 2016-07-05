@@ -125,9 +125,10 @@ void GameManager::UpdateGame(float deltaTime)
             if(activeGameObjects[i]->type == GameObject::PROJECTILE &&
                     activeGameObjects[j]->type == GameObject::ASTEROID &&
                     CircleCollision(activeGameObjects[i]->GetSpacePosition(),
-                    radio1,
+                    radio1 / 2,
                     activeGameObjects[j]->GetSpacePosition(),
-                    radio2)){
+                    radio2 / 2)){
+                activeGameObjects[j]->Destroy();
                 printf("jojojojo\n");
             }
         }
