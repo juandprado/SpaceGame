@@ -47,7 +47,7 @@ void Projectile::Update(float deltaTime)
 
 bool Projectile::LoadImages()
 {
-    if (!projectileImg.LoadFromFile("graphics/Projectile01.png"))
+    if (!projectileImg.LoadFromFile("graphics/Projectile07.png"))
         return false;
 
     return true;
