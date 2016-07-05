@@ -1,6 +1,7 @@
 #include <math.h>
 #include "Definitions.h"
 #include "Asteroid.h"
+#include "GameManager.h"
 #include <stdio.h>
 
 sf::Image Asteroid::asteroidImg;
@@ -18,7 +19,7 @@ Asteroid::Asteroid(GameManager * ownerGame, sf::Vector2f initialPosition, float 
         size = 0.25f;
         speed = 70;
     }
-    type = tipo;
+    typeAsteroid = tipo;
     gameManager = ownerGame;
     position = initialPosition;
     orientation = initialOrientation;
@@ -53,19 +54,23 @@ void Asteroid::Update(float deltaTime)
     if (health<=0){
         Destroy();
     }
-    
+   
 }
 
 void Asteroid::Damage(){
     health -= 50;
 }
 
+
 void Asteroid::Destroy()
 {   
     GameObject::Destroy();
-    if (type == 0) {
+    if (typeAsteroid == 0) {
         gameManager->LaunchAsteroids(GetSpacePosition().x, GetSpacePosition().y, (rand() % (int)(360 + 1)), 1);
         gameManager->LaunchAsteroids(GetSpacePosition().x, GetSpacePosition().y, (rand() % (int)(360 + 1)), 1);
+        gameManager->AddPoints(20);
+    } else {
+        gameManager->AddPoints(50);
     }
 }
 

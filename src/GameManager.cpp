@@ -10,6 +10,7 @@ GameManager::GameManager(sf::RenderWindow & appWindow) :
     spaceShip = NULL;
     asteroidTimer = 3.0f;
     contador = 0;
+    points = 0;
 }
 
 GameManager::~GameManager()
@@ -59,7 +60,7 @@ void GameManager::LaunchRandomAsteroids(){
     sf::Vector2f shipPos = spaceShip->GetSpacePosition();
     while (flag){
         xrand = ((rand() % (int)(renderWindow.GetWidth() + 1)));
-        if ( (xrand < (shipPos.x-60) ) || ( xrand > (shipPos.x + spaceShip->GetSpaceWidth() + 60) )){
+        if ( (xrand < (shipPos.x-100) ) || ( xrand > (shipPos.x + spaceShip->GetSpaceWidth() + 100) )){
             flag = false;
         }
     }
@@ -67,12 +68,17 @@ void GameManager::LaunchRandomAsteroids(){
     flag = true;
     while (flag){
         yrand = ((rand() % (int)(renderWindow.GetHeight() + 1)));
-        if ( (yrand < (shipPos.y-60) ) || ( yrand > (shipPos.y + spaceShip->GetSpaceWidth() + 60) )){
+        if ( (yrand < (shipPos.y-100) ) || ( yrand > (shipPos.y + spaceShip->GetSpaceWidth() + 100) )){
             flag = false;
         }
     }
 
     LaunchAsteroids(xrand , yrand, (rand() % (int)(360 + 1)), (rand() % (int)(1 + 1)));
+}
+
+void GameManager::AddPoints(int newPoints){
+    points += newPoints;
+    cout << "Puntos: " << points << endl;
 }
 
 void GameManager::LaunchAsteroids(float x, float y, int ori, int tipo){
@@ -129,6 +135,8 @@ void GameManager::UpdateGame(float deltaTime)
                     activeGameObjects[j]->GetSpacePosition(),
                     radio2 / 2)){
                 activeGameObjects[i]->Destroy();
+                Asteroid * asteroide = (Asteroid *) activeGameObjects[j];
+                asteroide->Damage();
                 printf("jojojojo\n");
             }
         }
