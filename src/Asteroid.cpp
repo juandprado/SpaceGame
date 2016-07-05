@@ -12,18 +12,17 @@ Asteroid::Asteroid(GameManager * ownerGame, sf::Vector2f initialPosition, float 
     if(tipo == 0){
         health = 100;
         size = 0.5f;
-        speed = 100;
+        speed = 30;
     }else{
         health = 50;
         size = 0.25f;
-        speed = 200;
+        speed = 70;
     }
     gameManager = ownerGame;
     position = initialPosition;
     orientation = initialOrientation;
 
 
-    lifeTime = 3.0f;
     sprite.SetImage(asteroidImg);
     sprite.SetCenter(sprite.GetSize().x / 2, sprite.GetSize().y / 2);
     sprite.SetScale(size, size);
@@ -49,12 +48,6 @@ void Asteroid::Update(float deltaTime)
     direction.y = sin(angle);
 
     position += direction * speed * deltaTime;
-
-    lifeTime -= deltaTime;
-    if (lifeTime<0)
-    {
-        Destroy();
-    }
     
 }
 
