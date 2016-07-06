@@ -13,11 +13,17 @@ public:
 
     static bool LoadImages();
 
-    float GetRotationDir();
+    // Getters and Setters
+    float GetSpeed();
+    void SetSpeed(float speed);
+
+    float GetLifeTime();
+    void SetLifeTime(float lifeTime);
+
 protected:
+
+    static sf::Image projectileImg;
 
     float speed; // Variable que contiene la velocidad de el proyectil
     float lifeTime; // Vida de el proyectil
-
-    static sf::Image projectileImg;
 };

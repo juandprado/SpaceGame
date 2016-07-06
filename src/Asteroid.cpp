@@ -6,11 +6,11 @@
 
 sf::Image Asteroid::asteroidImg;
 
-Asteroid::Asteroid(GameManager * ownerGame, sf::Vector2f initialPosition, float initialOrientation, int tipo) :
+Asteroid::Asteroid(GameManager * ownerGame, sf::Vector2f initialPosition, float initialOrientation, TypeAsteroid tipo) :
     GameObject(ownerGame)
 {
 
-    if(tipo == 0){
+    if(tipo == LARGE){
         health = 100;
         size = 0.5f;
         speed = 30;
@@ -71,7 +71,7 @@ void Asteroid::Damage(float orientation){
 void Asteroid::Destroy()
 {   
     GameObject::Destroy();
-    if (typeAsteroid == 0) {
+    if (typeAsteroid == LARGE) {
         gameManager->LaunchAsteroids(GetSpacePosition().x, GetSpacePosition().y, (rand() % (int)(360 + 1)), 1);
         gameManager->LaunchAsteroids(GetSpacePosition().x, GetSpacePosition().y, (rand() % (int)(360 + 1)), 1);
         gameManager->AddPoints(20);
@@ -86,4 +86,34 @@ bool Asteroid::LoadImages()
         return false;
 
     return true;
+}
+
+
+// Getters and Setters
+float Asteroid::GetHealth(){
+    return health;
+}
+void Asteroid::SetHealth(float health){
+    this->health = health;
+}
+
+float Asteroid::GetSize(){
+    return size;
+}
+void Asteroid::SetSize(float size){
+    this->size = size;
+}
+
+float Asteroid::GetSpeed(){
+    return speed;
+}
+void Asteroid::SetSpeed(float speed){
+    this->speed = speed;
+}
+
+Asteroid::TypeAsteroid Asteroid::GetTypeAsteroid(){
+    return typeAsteroid;
+}
+void Asteroid::SetTypeAsteroid(TypeAsteroid typeAsteroid){
+    this->typeAsteroid = typeAsteroid;
 }

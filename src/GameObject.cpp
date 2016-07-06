@@ -21,6 +21,20 @@ void GameObject::Destroy()
     gameManager->RemoveGameObject(this);
 }
 
+void GameObject::Update(float deltaTime)
+{
+
+}
+
+void GameObject::Draw(sf::RenderWindow & render)
+{
+    sprite.SetRotation(orientation + spriteRotation);
+    sprite.SetPosition(position);
+    render.Draw(sprite);
+}
+
+// Getters and Setters
+
 float GameObject::GetSpaceWidth(){
     return sprite.GetSize().x;
 }
@@ -36,14 +50,32 @@ sf::Vector2f GameObject::GetSpacePosition(){
 void GameObject::SetSpacePosition(sf::Vector2f position){
     this->position = position;
 }
-void GameObject::Update(float deltaTime)
-{
 
+sf::Sprite GameObject::GetSprite(){
+    return sprite;
+}
+void GameObject::SetSprite(sf::Sprite sprite){
+    this->sprite = sprite;
 }
 
-void GameObject::Draw(sf::RenderWindow & render)
-{
-    sprite.SetRotation(orientation + spriteRotation);
-    sprite.SetPosition(position);
-    render.Draw(sprite);
+float GameObject::GetOrientation(){
+    return orientation;
+}
+void GameObject::SetOrientation(float orientation){
+    this->orientation = orientation;
+}
+
+float GameObject::GetSpriteRotation(){
+    return spriteRotation;
+}
+void GameObject::SetSpriteRotation(float spriteRotation){
+    this->spriteRotation = spriteRotation;
+}
+
+GameObject::Type GameObject::GetType(){
+    return type;
+}
+
+void GameObject::SetType(Type type){
+    this->type = type;
 }

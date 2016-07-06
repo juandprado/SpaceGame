@@ -9,7 +9,6 @@ public:
     SpaceShip(GameManager * ownerGame, sf::Vector2f initialPosition);
     virtual ~SpaceShip();
 
-    void SetRotationDirection(float direction);
     void EvalProjectile();
 
     virtual void Update(float deltaTime);
@@ -19,17 +18,33 @@ public:
 
     void Accelerate(float deltaTime, float mode);
     void Damage();
+
+    // Getters and Setters
+    int GetVida();
+    void SetVida(int vida);
+
     float GetRotationDir();
-    
+    void SetRotationDir(float rotationDir);
+
+    float GetWeaponTime();
+    void SetWeaponTime(float rotationDir);
+
+    float GetSpeed();
+    void SetSpeed(float speed);
+
+    float GetAcceleration();
+    void SetAcceleration(float acceleration);
+
+
 
 private:
 
     static sf::Image spaceShipImg;
 
 
-    int vida;
+    int vida; // Puntos de vida de la nave
     float rotationDir; // Direccion de rotacion de la nave
     float weaponTimer; // Variable encargada de almacenar el tiempo minimo entre cada disparo
     float speed; //Velocidad de la nave
-    float acceleration;
+    float acceleration; // Aceleracion de la nave
 };

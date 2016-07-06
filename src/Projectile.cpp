@@ -53,6 +53,17 @@ bool Projectile::LoadImages()
     return true;
 }
 
-float Projectile::GetRotationDir(){
-    return orientation;
+// Getters and Setters
+float Projectile::GetSpeed(){
+    return speed;
+}
+void Projectile::SetSpeed(float speed){
+    this->speed = speed;
+}
+
+float Projectile::GetLifeTime(){
+    return lifeTime;
+}
+void Projectile::SetLifeTime(float lifeTime){
+    this->lifeTime = lifeTime;
 }

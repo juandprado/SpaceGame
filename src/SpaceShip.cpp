@@ -33,11 +33,6 @@ SpaceShip::~SpaceShip()
 
 }
 
-void SpaceShip::SetRotationDirection(float direction)
-{
-    rotationDir = direction;
-}
-
 // Encargado de lanzar un proyectil
 void SpaceShip::EvalProjectile()
 {
@@ -93,4 +88,41 @@ bool SpaceShip::LoadImages()
         return false;
 
     return true;
+}
+
+// Getters and Setters
+
+int SpaceShip::GetVida(){
+    return vida;
+}
+void SpaceShip::SetVida(int vida){
+    this->vida = vida;
+}
+
+float SpaceShip::GetRotationDir(){
+    return rotationDir;
+}
+void SpaceShip::SetRotationDir(float rotationDir){
+    this->rotationDir = rotationDir;
+}
+
+float SpaceShip::GetWeaponTime(){
+    return weaponTimer;
+}
+void SpaceShip::SetWeaponTime(float weaponTimer){
+    this->weaponTimer = weaponTimer;
+}
+
+float SpaceShip::GetSpeed(){
+    return speed;
+}
+void SpaceShip::SetSpeed(float speed){
+    this->speed = speed;
+}
+
+float SpaceShip::GetAcceleration(){
+    return acceleration;
+}
+void SpaceShip::SetAcceleration(float acceleration){
+    this->acceleration = acceleration;
 }

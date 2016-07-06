@@ -13,21 +13,33 @@ public:
     GameObject(GameManager * ownerGame);
     virtual ~GameObject();
 
+    // Definicion del tipo de dato type que determina el tipo de objeto
+    typedef enum {
+        SPACESHIP, ASTEROID, PROJECTILE
+    } Type;
+
     void Destroy();
 
     virtual void Update(float deltaTime);
     virtual void Draw(sf::RenderWindow & render);
 
-    typedef enum {
-        SPACESHIP, ASTEROID, PROJECTILE
-    } Type;
-
-    Type type;
-
+    // Getters and Setters
     float GetSpaceWidth();
     float GetSpaceHeight();
     sf::Vector2f GetSpacePosition();
     void SetSpacePosition(sf::Vector2f position);
+
+    sf::Sprite GetSprite();
+    void SetSprite(sf::Sprite sprite);
+
+    float GetOrientation();
+    void SetOrientation(float orientation);
+
+    float GetSpriteRotation();
+    void SetSpriteRotation(float spriteRotation);
+
+    Type GetType();
+    void SetType(Type type);
 
 protected:
 
@@ -37,5 +49,7 @@ protected:
     sf::Vector2f position;
     float orientation;
     float spriteRotation;
+
+    Type type;
 
 };

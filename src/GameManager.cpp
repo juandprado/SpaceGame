@@ -83,7 +83,7 @@ void GameManager::AddPoints(int newPoints){
 }
 
 void GameManager::LaunchAsteroids(float x, float y, int ori, int tipo){
-    Asteroid * asteroid = new Asteroid(this, sf::Vector2f(x, y), ori, tipo);
+    Asteroid * asteroid = new Asteroid(this, sf::Vector2f(x, y), ori, static_cast<Asteroid::TypeAsteroid>(tipo+1));
     RegisterGameObject(asteroid);
 }
 
@@ -100,7 +100,7 @@ void GameManager::UpdateGame(float deltaTime)
     if (input.IsKeyDown(sf::Key::Right))
         rotationDir -= 2.0f;
 
-    spaceShip->SetRotationDirection(rotationDir);
+    spaceShip->SetRotationDir(rotationDir);
 
     if (input.IsKeyDown(sf::Key::Space))
         spaceShip->EvalProjectile();
@@ -137,19 +137,19 @@ void GameManager::UpdateGame(float deltaTime)
             }
 
             // Verifica la colision entre proyectiles y asteroides
-            if(activeGameObjects[i]->type == GameObject::PROJECTILE &&
-                    activeGameObjects[j]->type == GameObject::ASTEROID &&
+            if(activeGameObjects[i]->GetType() == GameObject::PROJECTILE &&
+                    activeGameObjects[j]->GetType() == GameObject::ASTEROID &&
                     CircleCollision(activeGameObjects[i]->GetSpacePosition(),
                                     radio1,
                                     activeGameObjects[j]->GetSpacePosition(),
                                     radio2)){
                 activeGameObjects[i]->Destroy();
-                ((Asteroid *)activeGameObjects[j])->Damage(((Projectile*)activeGameObjects[i])->GetRotationDir());
+                ((Asteroid *)activeGameObjects[j])->Damage(activeGameObjects[i]->GetOrientation());
             }
 
             // Verifica la colision entre la nave y asteroides
-            if(activeGameObjects[i]->type == GameObject::SPACESHIP &&
-                    activeGameObjects[j]->type == GameObject::ASTEROID &&
+            if(activeGameObjects[i]->GetType() == GameObject::SPACESHIP &&
+                    activeGameObjects[j]->GetType() == GameObject::ASTEROID &&
                     CircleCollision(activeGameObjects[i]->GetSpacePosition(),
                                     radio1,
                                     activeGameObjects[j]->GetSpacePosition(),
