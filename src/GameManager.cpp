@@ -104,6 +104,13 @@ void GameManager::UpdateGame(float deltaTime)
 
     if (input.IsKeyDown(sf::Key::Space))
         spaceShip->EvalProjectile();
+
+    if (input.IsKeyDown(sf::Key::Up)) {
+        spaceShip->Accelerate(deltaTime, 1.0f);
+    } else {
+        spaceShip->Accelerate(deltaTime, -1.0f);
+    }
+
     //Se calcula el timer para nuevos astaroides y se crean nuevos
     asteroidTimer -= deltaTime;
     if (asteroidTimer<0.0f){

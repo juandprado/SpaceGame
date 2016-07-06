@@ -2,7 +2,10 @@
 #include "Projectile.h"
 #include "GameManager.h"
 #include "Asteroid.h"
+#include "Definitions.h"
 #include <stdio.h>
+#include <iostream>
+using namespace std;
 
 sf::Image SpaceShip::spaceShipImg;
 
@@ -19,6 +22,9 @@ SpaceShip::SpaceShip(GameManager * ownerGame, sf::Vector2f initialPosition)
     weaponTimer = 0.3;
 
     type = SPACESHIP;
+
+    speed = 30.0f;
+    acceleration = 20.0f;
 }
 
 SpaceShip::~SpaceShip()
@@ -45,6 +51,12 @@ void SpaceShip::EvalProjectile()
     }
 }
 
+void SpaceShip::Accelerate(float deltaTime, float mode){
+    speed += acceleration * deltaTime * mode;
+    if (speed <= 0.0f) {
+        speed = 0.0f;
+    }
+}
 
 void SpaceShip::Update(float deltaTime)
 {
@@ -52,6 +64,14 @@ void SpaceShip::Update(float deltaTime)
 
     orientation += deltaTime * rotationDir * 90;
 //    printf("%f\n",orientation);
+
+    const float angle = orientation * PI / 180.0f;
+
+    sf::Vector2f direction;
+    direction.x = cos(-angle);
+    direction.y = sin(-angle);
+
+    position += direction * speed * deltaTime;
 
     weaponTimer -= deltaTime;
     

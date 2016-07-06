@@ -16,6 +16,8 @@ public:
     virtual void Draw(sf::RenderWindow & render);
 
     static bool LoadImages();
+
+    void Accelerate(float deltaTime, float mode);
     
 
 private:
@@ -26,4 +28,6 @@ private:
 
     float rotationDir; // Direccion de rotacion de la nave
     float weaponTimer; // Variable encargada de almacenar el tiempo minimo entre cada disparo
+    float speed; //Velocidad de la nave
+    float acceleration;
 };
