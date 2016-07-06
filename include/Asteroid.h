@@ -15,6 +15,7 @@ public:
     static bool LoadImages();
 
     void Damage();
+    void Damage(float orientation);
     void Destroy();
 
 protected:

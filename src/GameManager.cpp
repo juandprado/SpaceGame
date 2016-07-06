@@ -38,9 +38,9 @@ bool GameManager::Initialize()
     spaceShip = new SpaceShip(this, sf::Vector2f(renderWindow.GetWidth()/2, renderWindow.GetHeight()/2));
     RegisterGameObject(spaceShip);
 
-    for (int i=0; i<3; i++){
-        LaunchRandomAsteroids();
-    }
+//    for (int i=0; i<3; i++){
+//        LaunchRandomAsteroids();
+//    }
 
     return true;
 }
@@ -58,6 +58,7 @@ void GameManager::LaunchRandomAsteroids(){
 
     //Se calcula la posicion del nuevo asteroide para que no se solape con la nave
     sf::Vector2f shipPos = spaceShip->GetSpacePosition();
+    printf("Pos x: %f  pos y: %f\n", spaceShip->GetSpacePosition().x, spaceShip->GetSpacePosition().y);
     while (flag){
         xrand = ((rand() % (int)(renderWindow.GetWidth() + 1)));
         if ( (xrand < (shipPos.x-100) ) || ( xrand > (shipPos.x + spaceShip->GetSpaceWidth() + 100) )){
@@ -82,7 +83,6 @@ void GameManager::AddPoints(int newPoints){
 }
 
 void GameManager::LaunchAsteroids(float x, float y, int ori, int tipo){
-//    Projectile * projectile = new Projectile(gameManager, position, orientation);
     Asteroid * asteroid = new Asteroid(this, sf::Vector2f(x, y), ori, tipo);
     RegisterGameObject(asteroid);
 }
@@ -123,28 +123,39 @@ void GameManager::UpdateGame(float deltaTime)
                              newGameObjects.end());
     newGameObjects.clear();
 
-    // Encargado de detectar las coliciones entre un proyectil y un asteroide
+    // Encargado de detectar las colisiones
     for(int i = 0; i < activeGameObjects.size(); i++){
         for (int j = 0; j < activeGameObjects.size(); j++){
-            float radio1 = activeGameObjects[i]->GetSpaceWidth();
+            float radio1 = activeGameObjects[i]->GetSpaceWidth() / 2;
             if(radio1 < activeGameObjects[i]->GetSpaceHeight()){
-                radio1 = activeGameObjects[i]->GetSpaceHeight();
+                radio1 = activeGameObjects[i]->GetSpaceHeight() / 2;
             }
 
-            float radio2 = activeGameObjects[j]->GetSpaceWidth();
+            float radio2 = activeGameObjects[j]->GetSpaceWidth() / 2;
             if(radio2 < activeGameObjects[j]->GetSpaceHeight()){
-                radio2 = activeGameObjects[j]->GetSpaceHeight();
+                radio2 = activeGameObjects[j]->GetSpaceHeight() / 2;
             }
 
+            // Verifica la colision entre proyectiles y asteroides
             if(activeGameObjects[i]->type == GameObject::PROJECTILE &&
                     activeGameObjects[j]->type == GameObject::ASTEROID &&
                     CircleCollision(activeGameObjects[i]->GetSpacePosition(),
-                    radio1 / 2,
-                    activeGameObjects[j]->GetSpacePosition(),
-                    radio2 / 2)){
+                                    radio1,
+                                    activeGameObjects[j]->GetSpacePosition(),
+                                    radio2)){
                 activeGameObjects[i]->Destroy();
-                Asteroid * asteroide = (Asteroid *) activeGameObjects[j];
-                asteroide->Damage();
+                ((Asteroid *)activeGameObjects[j])->Damage(((Projectile*)activeGameObjects[i])->GetRotationDir());
+            }
+
+            // Verifica la colision entre la nave y asteroides
+            if(activeGameObjects[i]->type == GameObject::SPACESHIP &&
+                    activeGameObjects[j]->type == GameObject::ASTEROID &&
+                    CircleCollision(activeGameObjects[i]->GetSpacePosition(),
+                                    radio1,
+                                    activeGameObjects[j]->GetSpacePosition(),
+                                    radio2)){
+                ((SpaceShip *)activeGameObjects[i])->Damage();
+                ((Asteroid *)activeGameObjects[j])->Destroy();
             }
         }
     }

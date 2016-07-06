@@ -47,7 +47,7 @@ void Asteroid::Update(float deltaTime)
 
     sf::Vector2f direction;
     direction.x = cos(angle);
-    direction.y = sin(angle);
+    direction.y = -sin(angle);
 
     position += direction * speed * deltaTime;
 
@@ -58,6 +58,12 @@ void Asteroid::Update(float deltaTime)
 }
 
 void Asteroid::Damage(){
+    health -= 50;
+}
+
+void Asteroid::Damage(float orientation){
+    this->orientation = orientation;
+    speed += 40;
     health -= 50;
 }
 

@@ -18,6 +18,8 @@ public:
     static bool LoadImages();
 
     void Accelerate(float deltaTime, float mode);
+    void Damage();
+    float GetRotationDir();
     
 
 private:
@@ -25,7 +27,7 @@ private:
     static sf::Image spaceShipImg;
 
 
-
+    int vida;
     float rotationDir; // Direccion de rotacion de la nave
     float weaponTimer; // Variable encargada de almacenar el tiempo minimo entre cada disparo
     float speed; //Velocidad de la nave

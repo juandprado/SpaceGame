@@ -52,3 +52,7 @@ bool Projectile::LoadImages()
 
     return true;
 }
+
+float Projectile::GetRotationDir(){
+    return orientation;
+}

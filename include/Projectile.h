@@ -13,6 +13,7 @@ public:
 
     static bool LoadImages();
 
+    float GetRotationDir();
 protected:
 
     float speed; // Variable que contiene la velocidad de el proyectil

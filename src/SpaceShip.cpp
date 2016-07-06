@@ -25,6 +25,7 @@ SpaceShip::SpaceShip(GameManager * ownerGame, sf::Vector2f initialPosition)
 
     speed = 0.0f;
     acceleration = 160.0f;
+    vida = 3;
 }
 
 SpaceShip::~SpaceShip()
@@ -45,9 +46,6 @@ void SpaceShip::EvalProjectile()
         Projectile * projectile = new Projectile(gameManager, position, orientation);
         gameManager->RegisterGameObject(projectile); // Se registra la creacion del nuevo proyectil
         weaponTimer = 0.3;
-
-//        Asteroid * asteroid = new Asteroid(gameManager, position, orientation);
-//        gameManager->RegisterGameObject(asteroid);
     }
 }
 
@@ -63,7 +61,6 @@ void SpaceShip::Update(float deltaTime)
     GameObject::Update(deltaTime);
 
     orientation += deltaTime * rotationDir * 90;
-//    printf("%f\n",orientation);
 
     const float angle = orientation * PI / 180.0f;
 
@@ -75,6 +72,14 @@ void SpaceShip::Update(float deltaTime)
 
     weaponTimer -= deltaTime;
     
+}
+
+void SpaceShip::Damage(){
+    vida--;
+    printf("Vidas: %d\n", vida);
+    if(vida <= 0){
+        Destroy();
+    }
 }
 
 void SpaceShip::Draw(sf::RenderWindow & render)
