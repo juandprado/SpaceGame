@@ -1,22 +1,35 @@
 #include <math.h>
 #include "Definitions.h"
 #include "Projectile.h"
+#include <iostream>
+using namespace std;
 
 sf::Image Projectile::projectileImg;
+sf::Image Projectile::projectileImg2;
 
-Projectile::Projectile(GameManager * ownerGame, sf::Vector2f initialPosition, float initialOrientation) :
+Projectile::Projectile(GameManager * ownerGame, sf::Vector2f initialPosition, float initialOrientation, TypeProjectile tipo) :
     GameObject(ownerGame)
 {
     gameManager = ownerGame;
     position = initialPosition;
     orientation = initialOrientation;
-    speed = 300;
+    
     lifeTime = 3.0f;
-    sprite.SetImage(projectileImg);
+    
+
+    typeProjectile = tipo;
+    if (typeProjectile == WEAK) {
+        sprite.SetImage(projectileImg);
+        speed = 300;
+    } else {
+        sprite.SetImage(projectileImg2);
+        speed = 500;
+    }
+
     sprite.SetCenter(sprite.GetSize().x / 2, sprite.GetSize().y / 2);
     sprite.SetScale(1.0f, 1.0f);
     spriteRotation = -90;
-
+    
     type = PROJECTILE;
 }
 
@@ -47,9 +60,9 @@ void Projectile::Update(float deltaTime)
 
 bool Projectile::LoadImages()
 {
-    if (!projectileImg.LoadFromFile("graphics/Projectile07.png"))
+    if (!projectileImg.LoadFromFile("graphics/Projectile10.png") || !projectileImg2.LoadFromFile("graphics/Projectile09.png"))
         return false;
-
+    
     return true;
 }
 

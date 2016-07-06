@@ -5,8 +5,11 @@
 class Projectile : public GameObject
 {
 public:
+    typedef enum {
+        WEAK, STRONG
+    } TypeProjectile;
 
-    Projectile(GameManager * ownerGame, sf::Vector2f initialPosition, float initialOrientation);
+    Projectile(GameManager * ownerGame, sf::Vector2f initialPosition, float initialOrientation, TypeProjectile tipo);
     virtual ~Projectile();
 
     virtual void Update(float deltaTime);
@@ -23,7 +26,9 @@ public:
 protected:
 
     static sf::Image projectileImg;
+    static sf::Image projectileImg2;
 
     float speed; // Variable que contiene la velocidad de el proyectil
     float lifeTime; // Vida de el proyectil
+    TypeProjectile typeProjectile;
 };

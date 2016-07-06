@@ -19,7 +19,6 @@ SpaceShip::SpaceShip(GameManager * ownerGame, sf::Vector2f initialPosition)
     sprite.SetScale(1.0f, 1.0f);
     spriteRotation = -90;
     rotationDir = 0;
-    weaponTimer = 0.3;
 
     type = SPACESHIP;
 
@@ -34,15 +33,13 @@ SpaceShip::~SpaceShip()
 }
 
 // Encargado de lanzar un proyectil
-void SpaceShip::EvalProjectile()
+void SpaceShip::EvalProjectile(Projectile::TypeProjectile tipo)
 {
-    if (weaponTimer < 0)
-    {
-        Projectile * projectile = new Projectile(gameManager, position, orientation);
+    
+        Projectile * projectile = new Projectile(gameManager, position, orientation, tipo);
         gameManager->RegisterGameObject(projectile); // Se registra la creacion del nuevo proyectil
-        weaponTimer = 0.3;
-    }
 }
+
 
 void SpaceShip::Accelerate(float deltaTime, float mode){
     speed += acceleration * deltaTime * mode;
@@ -64,8 +61,6 @@ void SpaceShip::Update(float deltaTime)
     direction.y = sin(-angle);
 
     position += direction * speed * deltaTime;
-
-    weaponTimer -= deltaTime;
     
 }
 
@@ -104,13 +99,6 @@ float SpaceShip::GetRotationDir(){
 }
 void SpaceShip::SetRotationDir(float rotationDir){
     this->rotationDir = rotationDir;
-}
-
-float SpaceShip::GetWeaponTime(){
-    return weaponTimer;
-}
-void SpaceShip::SetWeaponTime(float weaponTimer){
-    this->weaponTimer = weaponTimer;
 }
 
 float SpaceShip::GetSpeed(){

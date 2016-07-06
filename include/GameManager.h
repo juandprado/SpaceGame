@@ -48,6 +48,9 @@ class GameManager
 
         float asteroidTimer;
         int points;
+        float countPowerShot;
+        float weaponTimer; // Variable encargada de almacenar el tiempo minimo entre cada disparo
+        int shotStatus;
 };
 
 #endif // GAMEMANAGER_H

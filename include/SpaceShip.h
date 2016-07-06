@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
+#include "Projectile.h"
 
 class SpaceShip : public GameObject
 {
@@ -9,7 +10,7 @@ public:
     SpaceShip(GameManager * ownerGame, sf::Vector2f initialPosition);
     virtual ~SpaceShip();
 
-    void EvalProjectile();
+    void EvalProjectile(Projectile::TypeProjectile tipo);
 
     virtual void Update(float deltaTime);
     virtual void Draw(sf::RenderWindow & render);
@@ -26,9 +27,6 @@ public:
     float GetRotationDir();
     void SetRotationDir(float rotationDir);
 
-    float GetWeaponTime();
-    void SetWeaponTime(float rotationDir);
-
     float GetSpeed();
     void SetSpeed(float speed);
 
@@ -44,7 +42,7 @@ private:
 
     int vida; // Puntos de vida de la nave
     float rotationDir; // Direccion de rotacion de la nave
-    float weaponTimer; // Variable encargada de almacenar el tiempo minimo entre cada disparo
+    
     float speed; //Velocidad de la nave
     float acceleration; // Aceleracion de la nave
 };

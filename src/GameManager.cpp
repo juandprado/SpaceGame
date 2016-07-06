@@ -3,6 +3,7 @@
 #include "Projectile.h"
 #include "Asteroid.h"
 #include <stdio.h>
+#include <iostream>
 
 GameManager::GameManager(sf::RenderWindow & appWindow) :
     renderWindow(appWindow)
@@ -11,6 +12,9 @@ GameManager::GameManager(sf::RenderWindow & appWindow) :
     asteroidTimer = 3.0f;
     contador = 0;
     points = 0;
+    weaponTimer = 0.3f;
+    countPowerShot = 0.0f;
+    shotStatus = 0;
 }
 
 GameManager::~GameManager()
@@ -20,7 +24,7 @@ GameManager::~GameManager()
 
 bool GameManager::Initialize()
 {
-    if (!backgroundImg.LoadFromFile("graphics/BackgroundWhite.png"))
+    if (!backgroundImg.LoadFromFile("graphics/Background.png"))
         return false;
 
     backgroundSprite.SetImage(backgroundImg);
@@ -37,6 +41,8 @@ bool GameManager::Initialize()
 
     spaceShip = new SpaceShip(this, sf::Vector2f(renderWindow.GetWidth()/2, renderWindow.GetHeight()/2));
     RegisterGameObject(spaceShip);
+
+    countPowerShot = 0.0f;
 
 //    for (int i=0; i<3; i++){
 //        LaunchRandomAsteroids();
@@ -101,9 +107,27 @@ void GameManager::UpdateGame(float deltaTime)
         rotationDir -= 2.0f;
 
     spaceShip->SetRotationDir(rotationDir);
+    weaponTimer -= deltaTime;
 
-    if (input.IsKeyDown(sf::Key::Space))
-        spaceShip->EvalProjectile();
+    if (input.IsKeyDown(sf::Key::Space)){
+        if (weaponTimer <= 0){
+            if (shotStatus == 0) {
+                spaceShip->EvalProjectile(Projectile::WEAK);
+                weaponTimer = 0.3f;
+                shotStatus = 1;
+            }
+        }
+        countPowerShot += deltaTime;
+    } else {
+        countPowerShot = 0.0f;
+        shotStatus = 0;
+    }
+
+    if (countPowerShot >= 0.5f) {
+        spaceShip->EvalProjectile(Projectile::STRONG);
+        countPowerShot = 0.0f;
+        weaponTimer = 0.3f;
+    }
 
     if (input.IsKeyDown(sf::Key::Up)) {
         spaceShip->Accelerate(deltaTime, 1.0f);
@@ -140,7 +164,7 @@ void GameManager::UpdateGame(float deltaTime)
             if(activeGameObjects[i]->GetType() == GameObject::PROJECTILE &&
                     activeGameObjects[j]->GetType() == GameObject::ASTEROID &&
                     CircleCollision(activeGameObjects[i]->GetSpacePosition(),
-                                    radio1,
+                                    radio1*0.8,
                                     activeGameObjects[j]->GetSpacePosition(),
                                     radio2)){
                 activeGameObjects[i]->Destroy();
