@@ -27,6 +27,7 @@ public:
     float GetSpaceWidth();
     float GetSpaceHeight();
     sf::Vector2f GetSpacePosition();
+    void SetSpacePosition(sf::Vector2f position);
 
 protected:
 

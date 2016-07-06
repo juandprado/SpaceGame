@@ -23,8 +23,8 @@ SpaceShip::SpaceShip(GameManager * ownerGame, sf::Vector2f initialPosition)
 
     type = SPACESHIP;
 
-    speed = 30.0f;
-    acceleration = 20.0f;
+    speed = 0.0f;
+    acceleration = 160.0f;
 }
 
 SpaceShip::~SpaceShip()

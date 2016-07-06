@@ -95,10 +95,10 @@ void GameManager::UpdateGame(float deltaTime)
 
     // Se establecen los eventos para el movimiento de la nave
     if (input.IsKeyDown(sf::Key::Left))
-        rotationDir += 1.0f;
+        rotationDir += 2.0f;
 
     if (input.IsKeyDown(sf::Key::Right))
-        rotationDir -= 1.0f;
+        rotationDir -= 2.0f;
 
     spaceShip->SetRotationDirection(rotationDir);
 
@@ -111,7 +111,7 @@ void GameManager::UpdateGame(float deltaTime)
         spaceShip->Accelerate(deltaTime, -1.0f);
     }
 
-    //Se calcula el timer para nuevos astaroides y se crean nuevos
+    // Se calcula el timer para nuevos astaroides y se crean nuevos
     asteroidTimer -= deltaTime;
     if (asteroidTimer<0.0f){
         LaunchRandomAsteroids();
@@ -123,6 +123,7 @@ void GameManager::UpdateGame(float deltaTime)
                              newGameObjects.end());
     newGameObjects.clear();
 
+    // Encargado de detectar las coliciones entre un proyectil y un asteroide
     for(int i = 0; i < activeGameObjects.size(); i++){
         for (int j = 0; j < activeGameObjects.size(); j++){
             float radio1 = activeGameObjects[i]->GetSpaceWidth();
@@ -144,7 +145,6 @@ void GameManager::UpdateGame(float deltaTime)
                 activeGameObjects[i]->Destroy();
                 Asteroid * asteroide = (Asteroid *) activeGameObjects[j];
                 asteroide->Damage();
-                printf("jojojojo\n");
             }
         }
     }
@@ -152,6 +152,26 @@ void GameManager::UpdateGame(float deltaTime)
     for (std::vector<GameObject *>::iterator it = activeGameObjects.begin();
          it != activeGameObjects.end(); ++it)
     {
+        // renderWindow.GetWidth()/2, renderWindow.GetHeight()/2
+        // Verifica si se pasa del borde izquierdo
+        if((*it)->GetSpacePosition().x < 0){
+            (*it)->SetSpacePosition(sf::Vector2f(renderWindow.GetWidth(), (*it)->GetSpacePosition().y));
+        }
+        // Verifica si se pasa del borde derecho
+        if((*it)->GetSpacePosition().x > renderWindow.GetWidth()){
+            (*it)->SetSpacePosition(sf::Vector2f(0, (*it)->GetSpacePosition().y));
+        }
+
+        // Verifica si se pasa del borde superior
+        if((*it)->GetSpacePosition().y < 0){
+            (*it)->SetSpacePosition(sf::Vector2f((*it)->GetSpacePosition().x, renderWindow.GetHeight()));
+        }
+
+        // Verifica si se pasa del borde inferior
+        if((*it)->GetSpacePosition().y > renderWindow.GetHeight()){
+            (*it)->SetSpacePosition(sf::Vector2f((*it)->GetSpacePosition().x, 0));
+        }
+
         (*it)->Update(deltaTime);
         if (it == activeGameObjects.end())
         {

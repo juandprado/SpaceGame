@@ -33,6 +33,9 @@ sf::Vector2f GameObject::GetSpacePosition(){
     return sprite.GetPosition();
 }
 
+void GameObject::SetSpacePosition(sf::Vector2f position){
+    this->position = position;
+}
 void GameObject::Update(float deltaTime)
 {
 
