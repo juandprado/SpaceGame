@@ -64,10 +64,13 @@ void SpaceShip::Update(float deltaTime)
     
 }
 
-void SpaceShip::Damage(){
+void SpaceShip::Damage(float x, float y){
     vida--;
     printf("Vidas: %d\n", vida);
+    SetSpacePosition(sf::Vector2f(x, y));
+    speed = 0;
     if(vida <= 0){
+        gameManager->SetGameState(GameManager::GAMEOVER);
         Destroy();
     }
 }

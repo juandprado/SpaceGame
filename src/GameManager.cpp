@@ -15,6 +15,10 @@ GameManager::GameManager(sf::RenderWindow & appWindow) :
     weaponTimer = 0.3f;
     countPowerShot = 0.0f;
     shotStatus = 0;
+
+    gameState = MENU;
+
+    flag = 0;
 }
 
 GameManager::~GameManager()
@@ -24,6 +28,31 @@ GameManager::~GameManager()
 
 bool GameManager::Initialize()
 {
+    if(!menuImg.LoadFromFile("graphics/menu.png"))
+        return false;
+
+    menuSprite.SetImage(menuImg);
+    menuSprite.SetScale(1.0f, 1.0f);
+
+    if(!arrowLeftImg.LoadFromFile("graphics/arrow1.png"))
+        return false;
+
+    arrowLeftSprite.SetImage(arrowLeftImg);
+    arrowLeftSprite.SetScale(1.0f, 1.0f);
+    arrowLeftSprite.SetPosition(250.0f, 331.0f);
+
+    if(!arrowRightImg.LoadFromFile("graphics/arrow2.png"))
+        return false;
+
+    arrowRightSprite.SetImage(arrowRightImg);
+    arrowRightSprite.SetScale(1.0f, 1.0f);
+    arrowRightSprite.SetPosition(510.0f, 331.0f);
+
+    if(!gameOverImg.LoadFromFile("graphics/gameOver.png"))
+        return false;
+
+    gameOverSprite.SetImage(gameOverImg);
+
     if (!backgroundImg.LoadFromFile("graphics/Background.png"))
         return false;
 
@@ -93,8 +122,7 @@ void GameManager::LaunchAsteroids(float x, float y, int ori, int tipo){
     RegisterGameObject(asteroid);
 }
 
-void GameManager::UpdateGame(float deltaTime)
-{
+void GameManager::Game(float deltaTime){
     const sf::Input & input = renderWindow.GetInput();
 
     float rotationDir = 0;
@@ -178,7 +206,7 @@ void GameManager::UpdateGame(float deltaTime)
                                     radio1,
                                     activeGameObjects[j]->GetSpacePosition(),
                                     radio2)){
-                ((SpaceShip *)activeGameObjects[i])->Damage();
+                ((SpaceShip *)activeGameObjects[i])->Damage(renderWindow.GetWidth()/2, renderWindow.GetHeight()/2);
                 ((Asteroid *)activeGameObjects[j])->Destroy();
             }
         }
@@ -215,17 +243,59 @@ void GameManager::UpdateGame(float deltaTime)
     }
 }
 
+void GameManager::UpdateGame(float deltaTime)
+{
+    const sf::Input & input = renderWindow.GetInput();
+    if(gameState == MENU){
+        if(spaceShip->GetVida() == 0){
+            Initialize();
+        }
+        if (input.IsKeyDown(sf::Key::Up) && flag == 1) {
+            arrowLeftSprite.SetPosition(arrowLeftSprite.GetPosition().x, arrowLeftSprite.GetPosition().y - 55);
+            arrowRightSprite.SetPosition(arrowRightSprite.GetPosition().x, arrowRightSprite.GetPosition().y - 55);
+            flag = 0;
+        }
+        if (input.IsKeyDown(sf::Key::Down) && flag == 0){
+            arrowLeftSprite.SetPosition(arrowLeftSprite.GetPosition().x, arrowLeftSprite.GetPosition().y + 55);
+            arrowRightSprite.SetPosition(arrowRightSprite.GetPosition().x, arrowRightSprite.GetPosition().y + 55);
+            flag = 1;
+        }
+
+        if(input.IsKeyDown(sf::Key::Return) && flag == 0){
+            gameState = GAME;
+        }else if(input.IsKeyDown(sf::Key::Return) && flag == 1){
+            exit(0);
+        }
+    }else if(gameState == GAME){
+        Game(deltaTime);
+
+    }else if(gameState == GAMEOVER){
+        if (input.IsKeyDown(sf::Key::Back)){
+            gameState = MENU;
+        }
+    }
+
+
+}
+
 void GameManager::DrawGame()
 {
-    // Se dibuja el fondo
-    renderWindow.Draw(backgroundSprite);
-    // Se dibuja cada uno de los objetos activos
-    for (std::vector<GameObject *>::iterator it = activeGameObjects.begin();
-         it != activeGameObjects.end(); ++it)
-    {
-        (*it)->Draw(renderWindow);
+    if(gameState == MENU){
+        renderWindow.Draw(menuSprite);
+        renderWindow.Draw(arrowLeftSprite);
+        renderWindow.Draw(arrowRightSprite);
+    } else if (gameState == GAME){
+        // Se dibuja el fondo
+        renderWindow.Draw(backgroundSprite);
+        // Se dibuja cada uno de los objetos activos
+        for (std::vector<GameObject *>::iterator it = activeGameObjects.begin();
+             it != activeGameObjects.end(); ++it)
+        {
+            (*it)->Draw(renderWindow);
+        }
+    } else if(gameState == GAMEOVER){
+        renderWindow.Draw(gameOverSprite);
     }
-    
 }
 
 // Agrega un objeto a la lista de objetos nuevos
@@ -266,4 +336,13 @@ bool GameManager::CircleCollision(sf::Vector2f p1, float radius1, sf::Vector2f p
     sf::Vector2f delta = p2 - p1;
     float distanceSquare = delta.x * delta.x + delta.y * delta.y;
     return (distanceSquare < sumRadius * sumRadius);
+}
+
+// Getter and Setters
+GameManager::GameState GameManager::GetGameState(){
+    return gameState;
+}
+
+void GameManager::SetGameState(GameManager::GameState gameState){
+    this->gameState = gameState;
 }

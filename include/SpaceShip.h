@@ -18,7 +18,7 @@ public:
     static bool LoadImages();
 
     void Accelerate(float deltaTime, float mode);
-    void Damage();
+    void Damage(float x, float y);
 
     // Getters and Setters
     int GetVida();

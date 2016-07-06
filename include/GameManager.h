@@ -14,6 +14,10 @@ class GameManager
 {
     public:
 
+        typedef enum {
+            MENU, GAME, GAMEOVER
+        } GameState;
+
         GameManager(sf::RenderWindow & appWindow);
         virtual ~GameManager();
 
@@ -31,12 +35,31 @@ class GameManager
         bool CircleCollision(sf::Vector2f p1, float radius1, sf::Vector2f p2, float radius2);
 
         void AddPoints(int newPoints);
+        void Game(float deltaTime);
 
         int contador;
+
+        int flag; // Variable que verifica si la flecha esta arriba o abajo
+
+        // Getters and Setters
+        GameState GetGameState();
+        void SetGameState(GameState gameState);
 
     protected:
 
         sf::RenderWindow & renderWindow;
+
+        sf::Image menuImg;
+        sf::Sprite menuSprite;
+
+        sf::Image arrowLeftImg;
+        sf::Sprite arrowLeftSprite;
+
+        sf::Image arrowRightImg;
+        sf::Sprite arrowRightSprite;
+
+        sf::Image gameOverImg;
+        sf::Sprite gameOverSprite;
 
         sf::Image backgroundImg;
         sf::Sprite backgroundSprite;
@@ -51,6 +74,8 @@ class GameManager
         float countPowerShot;
         float weaponTimer; // Variable encargada de almacenar el tiempo minimo entre cada disparo
         int shotStatus;
+
+        GameState gameState;
 };
 
 #endif // GAMEMANAGER_H
