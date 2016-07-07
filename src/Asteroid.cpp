@@ -2,6 +2,7 @@
 #include "Definitions.h"
 #include "Asteroid.h"
 #include "GameManager.h"
+#include "Explosion.h"
 #include <stdio.h>
 
 sf::Image Asteroid::asteroidImg;
@@ -77,6 +78,8 @@ void Asteroid::Destroy()
         gameManager->AddPoints(20);
     } else {
         gameManager->AddPoints(50);
+        Explosion * explosion = new Explosion(gameManager, position, orientation, static_cast<Explosion::TypeExplosion>(0));
+        gameManager->RegisterGameObject(explosion); // Se registra la creacion del nuevo proyectil
     }
 }
 

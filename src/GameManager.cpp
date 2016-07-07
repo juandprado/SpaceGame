@@ -2,6 +2,7 @@
 #include "SpaceShip.h"
 #include "Projectile.h"
 #include "Asteroid.h"
+#include "Explosion.h"
 #include <stdio.h>
 #include <iostream>
 
@@ -66,6 +67,9 @@ bool GameManager::Initialize()
         return false;
 
     if (!Asteroid::LoadImages())
+        return false;
+
+    if (!Explosion::LoadImages())
         return false;
 
     spaceShip = new SpaceShip(this, sf::Vector2f(renderWindow.GetWidth()/2, renderWindow.GetHeight()/2));

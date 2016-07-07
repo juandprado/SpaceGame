@@ -38,6 +38,7 @@ public:
 private:
 
     static sf::Image spaceShipImg;
+    static sf::Image trailImg;
 
 
     int vida; // Puntos de vida de la nave
@@ -45,4 +46,7 @@ private:
     
     float speed; //Velocidad de la nave
     float acceleration; // Aceleracion de la nave
+
+    sf::Sprite sprite2;
+    bool accelerating;
 };

@@ -8,6 +8,7 @@
 using namespace std;
 
 sf::Image SpaceShip::spaceShipImg;
+sf::Image SpaceShip::trailImg;
 
 SpaceShip::SpaceShip(GameManager * ownerGame, sf::Vector2f initialPosition)
     : GameObject(ownerGame)
@@ -25,6 +26,10 @@ SpaceShip::SpaceShip(GameManager * ownerGame, sf::Vector2f initialPosition)
     speed = 0.0f;
     acceleration = 160.0f;
     vida = 3;
+
+    accelerating = false;
+
+    sprite2.SetImage(trailImg);
 }
 
 SpaceShip::~SpaceShip()
@@ -43,6 +48,11 @@ void SpaceShip::EvalProjectile(Projectile::TypeProjectile tipo)
 
 void SpaceShip::Accelerate(float deltaTime, float mode){
     speed += acceleration * deltaTime * mode;
+    if (mode>0){
+        accelerating = true;
+    } else {
+        accelerating = false;
+    }
     if (speed <= 0.0f) {
         speed = 0.0f;
     }
@@ -61,7 +71,11 @@ void SpaceShip::Update(float deltaTime)
     direction.y = sin(-angle);
 
     position += direction * speed * deltaTime;
-    
+
+    float deltaOrientation = deltaTime * rotationDir * 90;
+    float deltaAngle = deltaOrientation * PI /180.0f;
+
+    sprite2.SetRotation(orientation + spriteRotation);
 }
 
 void SpaceShip::Damage(float x, float y){
@@ -78,11 +92,17 @@ void SpaceShip::Damage(float x, float y){
 void SpaceShip::Draw(sf::RenderWindow & render)
 {
     GameObject::Draw(render);
+    if (accelerating){
+        float angle = orientation * PI / 180.0f;
+
+        
+        render.Draw(sprite2);
+    }
 }
 
 bool SpaceShip::LoadImages()
 {
-    if (!spaceShipImg.LoadFromFile("graphics/Spaceship01.png"))
+    if (!spaceShipImg.LoadFromFile("graphics/Spaceship01.png") || !trailImg.LoadFromFile("graphics/JetTrail.png"))
         return false;
 
     return true;
