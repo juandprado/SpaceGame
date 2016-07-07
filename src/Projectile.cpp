@@ -6,31 +6,43 @@ using namespace std;
 
 sf::Image Projectile::projectileImg;
 sf::Image Projectile::projectileImg2;
+sf::Image Projectile::projectileImg3;
 
-Projectile::Projectile(GameManager * ownerGame, sf::Vector2f initialPosition, float initialOrientation, TypeProjectile tipo) :
+Projectile::Projectile(GameManager * ownerGame, sf::Vector2f initialPosition, float initialOrientation, TypeProjectile typeProjectile, Type type) :
     GameObject(ownerGame)
 {
     gameManager = ownerGame;
     position = initialPosition;
     orientation = initialOrientation;
-    
-    lifeTime = 3.0f;
-    
 
-    typeProjectile = tipo;
-    if (typeProjectile == WEAK) {
+    if(type == PROJECTILE_SPACE_SHIP){
+        lifeTime = 3.0f;
+    }else{
+        lifeTime = 7.0f;
+    }
+
+
+    this->type = type;
+    this->typeProjectile = typeProjectile;
+    if (typeProjectile == WEAK && type == PROJECTILE_SPACE_SHIP) {
         sprite.SetImage(projectileImg);
         speed = 300;
-    } else {
+    } else if(typeProjectile == STRONG && type == PROJECTILE_SPACE_SHIP){
         sprite.SetImage(projectileImg2);
         speed = 500;
+    } else if(typeProjectile == WEAK && PROJECTILE_ALIEN_SHIP){
+        sprite.SetImage(projectileImg3);
+        speed = 200;
+    } else{
+        sprite.SetImage(projectileImg3);
+        speed = 300;
     }
 
     sprite.SetCenter(sprite.GetSize().x / 2, sprite.GetSize().y / 2);
     sprite.SetScale(1.0f, 1.0f);
     spriteRotation = -90;
     
-    type = PROJECTILE;
+
 }
 
 Projectile::~Projectile()
@@ -60,7 +72,9 @@ void Projectile::Update(float deltaTime)
 
 bool Projectile::LoadImages()
 {
-    if (!projectileImg.LoadFromFile("graphics/Projectile10.png") || !projectileImg2.LoadFromFile("graphics/Projectile09.png"))
+    if (!projectileImg.LoadFromFile("graphics/Projectile10.png") ||
+            !projectileImg2.LoadFromFile("graphics/Projectile09.png") ||
+            !projectileImg3.LoadFromFile("graphics/Projectile10.png"))
         return false;
     
     return true;

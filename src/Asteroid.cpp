@@ -41,7 +41,6 @@ Asteroid::~Asteroid()
 
 void Asteroid::Update(float deltaTime)
 {
-//    printf("jojojojo\n");
     GameObject::Update(deltaTime);
 
     const float angle = orientation * PI / 180.0f;

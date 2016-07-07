@@ -33,7 +33,7 @@ public:
     float GetAcceleration();
     void SetAcceleration(float acceleration);
 
-
+    sf::Image GetSpaceShipImg();
 
 private:
 

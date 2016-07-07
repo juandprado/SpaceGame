@@ -38,10 +38,10 @@ SpaceShip::~SpaceShip()
 }
 
 // Encargado de lanzar un proyectil
-void SpaceShip::EvalProjectile(Projectile::TypeProjectile tipo)
+void SpaceShip::EvalProjectile(Projectile::TypeProjectile typeProjectile)
 {
     
-        Projectile * projectile = new Projectile(gameManager, position, orientation, tipo);
+        Projectile * projectile = new Projectile(gameManager, position, orientation, typeProjectile, GameObject::PROJECTILE_SPACE_SHIP);
         gameManager->RegisterGameObject(projectile); // Se registra la creacion del nuevo proyectil
 }
 
@@ -136,4 +136,8 @@ float SpaceShip::GetAcceleration(){
 }
 void SpaceShip::SetAcceleration(float acceleration){
     this->acceleration = acceleration;
+}
+
+sf::Image SpaceShip::GetSpaceShipImg(){
+    return spaceShipImg;
 }

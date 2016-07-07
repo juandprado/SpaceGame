@@ -9,7 +9,7 @@ public:
         WEAK, STRONG
     } TypeProjectile;
 
-    Projectile(GameManager * ownerGame, sf::Vector2f initialPosition, float initialOrientation, TypeProjectile tipo);
+    Projectile(GameManager * ownerGame, sf::Vector2f initialPosition, float initialOrientation, TypeProjectile typeProjectile, Type type);
     virtual ~Projectile();
 
     virtual void Update(float deltaTime);
@@ -27,6 +27,7 @@ protected:
 
     static sf::Image projectileImg;
     static sf::Image projectileImg2;
+    static sf::Image projectileImg3;
 
     float speed; // Variable que contiene la velocidad de el proyectil
     float lifeTime; // Vida de el proyectil
