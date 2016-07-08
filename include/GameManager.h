@@ -76,6 +76,8 @@ class GameManager
         float weaponTimer; // Variable encargada de almacenar el tiempo minimo entre cada disparo
         int shotStatus;
 
+        bool asteroidsLoaded;
+        float initialCounter;
         GameState gameState;
 };
 

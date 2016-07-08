@@ -24,8 +24,7 @@ public:
 
     float GetAcceleration();
     void SetAcceleration(float acceleration);
-
-
+    void Destroy(bool boom);
 
 private:
 

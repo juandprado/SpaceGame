@@ -3,6 +3,7 @@
 #include "GameManager.h"
 #include "Asteroid.h"
 #include "Definitions.h"
+#include "Explosion.h"
 #include <stdio.h>
 #include <iostream>
 using namespace std;
@@ -66,6 +67,16 @@ void AlienShip::Update(float deltaTime)
 
     position += direction * speed * deltaTime;
     
+}
+
+void AlienShip::Destroy(bool boom)
+{   
+    GameObject::Destroy();
+    gameManager->AddPoints(70);
+    if (boom){
+        Explosion * explosion = new Explosion(gameManager, position, orientation, static_cast<Explosion::TypeExplosion>(0));
+        gameManager->RegisterGameObject(explosion); // Se registra la creacion del nuevo proyectil
+    }
 }
 
 bool AlienShip::LoadImages()

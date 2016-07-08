@@ -15,7 +15,7 @@ public:
 
     // Definicion del tipo de dato type que determina el tipo de objeto
     typedef enum {
-        SPACESHIP, ASTEROID, PROJECTILE_SPACE_SHIP, PROJECTILE_ALIEN_SHIP, ALIENSHIP, EXPLOSION
+        SPACESHIP, ASTEROID, PROJECTILE_SPACE_SHIP, PROJECTILE_ALIEN_SHIP, ALIENSHIP, EXPLOSION, DEAD_SPACE_SHIP, NEW_SPACE_SHIP
     } Type;
 
     void Destroy();

@@ -74,7 +74,7 @@ bool Projectile::LoadImages()
 {
     if (!projectileImg.LoadFromFile("graphics/Projectile10.png") ||
             !projectileImg2.LoadFromFile("graphics/Projectile09.png") ||
-            !projectileImg3.LoadFromFile("graphics/Projectile10.png"))
+            !projectileImg3.LoadFromFile("graphics/Projectile11.png"))
         return false;
     
     return true;

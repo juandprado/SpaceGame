@@ -18,7 +18,7 @@ public:
     static bool LoadImages();
 
     void Accelerate(float deltaTime, float mode);
-    void Damage(float x, float y);
+    void Damage(bool boom);
 
     // Getters and Setters
     int GetVida();
@@ -47,6 +47,16 @@ private:
     float speed; //Velocidad de la nave
     float acceleration; // Aceleracion de la nave
 
+    float hidingCounter;
+    bool hiding;
+
+    float newCounter;
+    bool isNew;
+
     sf::Sprite sprite2;
     bool accelerating;
+
+    int changes;
+    float respawnCounter;
+    bool respawning;
 };

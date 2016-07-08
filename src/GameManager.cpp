@@ -17,6 +17,10 @@ GameManager::GameManager(sf::RenderWindow & appWindow) :
     weaponTimer = 0.3f;
     countPowerShot = 0.0f;
     shotStatus = 0;
+    alienShipTimer = 15.0f;
+
+    asteroidsLoaded=false;
+    initialCounter=0.2f;
 
     gameState = MENU;
 
@@ -83,10 +87,6 @@ bool GameManager::Initialize()
     RegisterGameObject(spaceShip);
 
     countPowerShot = 0.0f;
-
-//    for (int i=0; i<3; i++){
-//        LaunchRandomAsteroids();
-//    }
 
     return true;
 }
@@ -211,6 +211,16 @@ void GameManager::Game(float deltaTime){
         asteroidTimer = 3.0f;
     }
 
+    if (!asteroidsLoaded) {
+        initialCounter-=deltaTime;
+        if (initialCounter<=0.0f){
+            for (int i=0; i<3; i++){
+                LaunchRandomAsteroids();
+            }
+            asteroidsLoaded=true;
+        }
+    }
+
     alienShipTimer -= deltaTime;
     if (alienShipTimer<0.0f){
         LaunchRandomAlienShips();
@@ -243,7 +253,7 @@ void GameManager::Game(float deltaTime){
                                activeGameObjects[j]->GetSpacePosition(),
                                radio2)){
                 activeGameObjects[i]->Destroy();
-                ((Asteroid *)activeGameObjects[j])->Damage(activeGameObjects[i]->GetOrientation());
+                ((Asteroid *)activeGameObjects[j])->Damage(activeGameObjects[i]->GetOrientation(), true);
             }
 
             // Verifica la colision entre la nave y asteroides
@@ -253,8 +263,8 @@ void GameManager::Game(float deltaTime){
                                radio1,
                                activeGameObjects[j]->GetSpacePosition(),
                                radio2)){
-                ((SpaceShip *)activeGameObjects[i])->Damage(renderWindow.GetWidth()/2, renderWindow.GetHeight()/2);
-                activeGameObjects[j]->Destroy();
+                ((SpaceShip *)activeGameObjects[i])->Damage(true);
+                ((Asteroid *)activeGameObjects[j])->Destroy(true);
             }
 
             // Verifica la colision entre la nave y la nave alienigena
@@ -264,8 +274,8 @@ void GameManager::Game(float deltaTime){
                                radio1,
                                activeGameObjects[j]->GetSpacePosition(),
                                radio2)){
-                ((SpaceShip *)activeGameObjects[i])->Damage(renderWindow.GetWidth()/2, renderWindow.GetHeight()/2);
-                activeGameObjects[j]->Destroy();
+                ((SpaceShip *)activeGameObjects[i])->Damage(true);
+                ((AlienShip *)activeGameObjects[j])->Destroy(true);
             }
 
             // Verifica la colision entre proyectiles y aliens
@@ -276,7 +286,7 @@ void GameManager::Game(float deltaTime){
                                activeGameObjects[j]->GetSpacePosition(),
                                radio2)){
                 activeGameObjects[i]->Destroy();
-                ((AlienShip *)activeGameObjects[j])->Destroy();
+                ((AlienShip *)activeGameObjects[j])->Destroy(true);
             }
 
             // Verifica la colision entre alien y asteroides
@@ -286,8 +296,8 @@ void GameManager::Game(float deltaTime){
                                radio1,
                                activeGameObjects[j]->GetSpacePosition(),
                                radio2)){
-                activeGameObjects[i]->Destroy();
-                activeGameObjects[j]->Destroy();
+                ((AlienShip *)activeGameObjects[i])->Destroy(false);
+                ((Asteroid *)activeGameObjects[j])->Destroy(false);
             }
 
             // Verifica la colision entre la nave y los disparos enemigos
@@ -297,7 +307,7 @@ void GameManager::Game(float deltaTime){
                                radio1,
                                activeGameObjects[j]->GetSpacePosition(),
                                radio2)){
-                ((SpaceShip *)activeGameObjects[i])->Damage(renderWindow.GetWidth()/2, renderWindow.GetHeight()/2);
+                ((SpaceShip *)activeGameObjects[i])->Damage(true);
                 activeGameObjects[j]->Destroy();
             }
         }
@@ -383,7 +393,9 @@ void GameManager::DrawGame()
         // Se dibuja cada uno de los objetos activos
         for (std::vector<GameObject *>::iterator it = activeGameObjects.begin();
              it != activeGameObjects.end(); ++it){
-            (*it)->Draw(renderWindow);
+            if ((*it)->GetType()!=GameObject::DEAD_SPACE_SHIP){
+                (*it)->Draw(renderWindow);
+            }
         }
 
         // Imprime la puntuacion en pantalla

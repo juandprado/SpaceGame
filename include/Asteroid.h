@@ -17,8 +17,8 @@ public:
     static bool LoadImages();
 
     void Damage();
-    void Damage(float orientation);
-    void Destroy();
+    void Damage(float orientation, bool boom);
+    void Destroy(bool boom);
 
     // Getters and Setters
     float GetHealth();
@@ -41,6 +41,8 @@ protected:
     float size;
     float speed;
     TypeAsteroid typeAsteroid;
+
+    bool checkBoom;
 
 
 };

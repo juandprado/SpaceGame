@@ -30,7 +30,7 @@ Asteroid::Asteroid(GameManager * ownerGame, sf::Vector2f initialPosition, float 
     sprite.SetCenter(sprite.GetSize().x / 2, sprite.GetSize().y / 2);
     sprite.SetScale(size, size);
     spriteRotation = -90;
-
+    checkBoom=false;
     type = ASTEROID;
 }
 
@@ -52,7 +52,7 @@ void Asteroid::Update(float deltaTime)
     position += direction * speed * deltaTime;
 
     if (health<=0){
-        Destroy();
+        Destroy(checkBoom);
     }
    
 }
@@ -61,14 +61,15 @@ void Asteroid::Damage(){
     health -= 50;
 }
 
-void Asteroid::Damage(float orientation){
+void Asteroid::Damage(float orientation, bool boom){
     this->orientation = orientation;
     speed += 40;
     health -= 50;
+    checkBoom = boom;
 }
 
 
-void Asteroid::Destroy()
+void Asteroid::Destroy(bool boom)
 {   
     GameObject::Destroy();
     if (typeAsteroid == LARGE) {
@@ -77,8 +78,12 @@ void Asteroid::Destroy()
         gameManager->AddPoints(20);
     } else {
         gameManager->AddPoints(50);
-        Explosion * explosion = new Explosion(gameManager, position, orientation, static_cast<Explosion::TypeExplosion>(0));
-        gameManager->RegisterGameObject(explosion); // Se registra la creacion del nuevo proyectil
+        if (boom){
+            Explosion * explosion = new Explosion(gameManager, position, orientation, static_cast<Explosion::TypeExplosion>(0));
+            gameManager->RegisterGameObject(explosion); // Se registra la creacion del nuevo proyectil
+            cout << "Pos Asteroid: " << position.x << ", " << position.y << endl;
+        }
+        
     }
 }
 

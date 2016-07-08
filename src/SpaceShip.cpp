@@ -3,6 +3,7 @@
 #include "GameManager.h"
 #include "Asteroid.h"
 #include "Definitions.h"
+#include "Explosion.h"
 #include <stdio.h>
 #include <iostream>
 using namespace std;
@@ -30,6 +31,14 @@ SpaceShip::SpaceShip(GameManager * ownerGame, sf::Vector2f initialPosition)
     accelerating = false;
 
     sprite2.SetImage(trailImg);
+    hiding = false;
+    isNew = false;
+    hidingCounter = 0.0f;
+    newCounter = 0.0f;
+
+    changes=0;
+    respawnCounter=0.0f;
+    respawning=false;
 }
 
 SpaceShip::~SpaceShip()
@@ -40,7 +49,6 @@ SpaceShip::~SpaceShip()
 // Encargado de lanzar un proyectil
 void SpaceShip::EvalProjectile(Projectile::TypeProjectile typeProjectile)
 {
-    
         Projectile * projectile = new Projectile(gameManager, position, orientation, typeProjectile, GameObject::PROJECTILE_SPACE_SHIP);
         gameManager->RegisterGameObject(projectile); // Se registra la creacion del nuevo proyectil
 }
@@ -76,12 +84,54 @@ void SpaceShip::Update(float deltaTime)
     float deltaAngle = deltaOrientation * PI /180.0f;
 
     sprite2.SetRotation(orientation + spriteRotation);
+
+    if (hiding){
+        hidingCounter -= deltaTime;
+        if (hidingCounter <= 0.0f){
+            hidingCounter = 0.0f;
+            hiding = false;
+            SetSpacePosition(sf::Vector2f(400, 300));
+            type = NEW_SPACE_SHIP;
+            respawning = true;
+            respawnCounter = 0.2;
+            changes = 10;
+        }
+    }
+
+    if(respawning){
+        respawnCounter -= deltaTime;
+        if (changes > 0){
+            if (respawnCounter<= 0.0f){
+                respawnCounter = 0.2f;
+                if (type == DEAD_SPACE_SHIP){
+                    type = NEW_SPACE_SHIP;
+                    changes--;
+                } else if (type == NEW_SPACE_SHIP){
+                    type = DEAD_SPACE_SHIP;
+                    changes--;
+                }
+            }
+        } else {
+            changes = 0;
+            respawning = false;
+            type = SPACESHIP;
+            respawnCounter = 0.0f;
+        }
+    }
 }
 
-void SpaceShip::Damage(float x, float y){
+void SpaceShip::Damage(bool boom){
+    cout << "Explosion creada " << vida << endl;
+    if (boom){
+        Explosion * explosion = new Explosion(gameManager, position, orientation, static_cast<Explosion::TypeExplosion>(1));
+        gameManager->RegisterGameObject(explosion); // Se registra la creacion del nuevo proyectil
+    }
     vida--;
     printf("Vidas: %d\n", vida);
-    SetSpacePosition(sf::Vector2f(x, y));
+    SetSpacePosition(sf::Vector2f(400, 300));
+    type = DEAD_SPACE_SHIP;
+    hiding = true;
+    hidingCounter = 2.0f;
     speed = 0;
     if(vida <= 0){
         gameManager->SetGameState(GameManager::GAMEOVER);
