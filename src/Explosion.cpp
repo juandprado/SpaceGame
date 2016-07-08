@@ -15,7 +15,7 @@ Explosion::Explosion(GameManager * ownerGame, sf::Vector2f initialPosition, floa
     position = initialPosition;
     orientation = initialOrientation;
 
-
+    size = 1.0f;
     sprite.SetImage(ExplosionImg);
     sprite.SetCenter(sprite.GetSize().x / 2, sprite.GetSize().y / 2);
     sprite.SetScale(size, size);

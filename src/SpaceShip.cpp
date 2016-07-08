@@ -12,12 +12,13 @@ sf::Image SpaceShip::spaceShipImg;
 sf::Image SpaceShip::trailImg;
 
 SpaceShip::SpaceShip(GameManager * ownerGame, sf::Vector2f initialPosition)
-    : GameObject(ownerGame)
-{
+    : GameObject(ownerGame){
+
     gameManager = ownerGame;
     position = initialPosition;
     sprite.SetImage(spaceShipImg);
     sprite.SetCenter(sprite.GetSize().x / 2, sprite.GetSize().y / 2);
+    sprite2.SetCenter((sprite.GetSize().x / 2)-20, (sprite.GetSize().y / 2)-85);
     sprite.SetScale(1.0f, 1.0f);
     spriteRotation = -90;
     rotationDir = 0;
@@ -80,10 +81,10 @@ void SpaceShip::Update(float deltaTime)
 
     position += direction * speed * deltaTime;
 
-    float deltaOrientation = deltaTime * rotationDir * 90;
-    float deltaAngle = deltaOrientation * PI /180.0f;
-
     sprite2.SetRotation(orientation + spriteRotation);
+    sf::Vector2f tmp = sf::Vector2f(position.x, position.y);
+    sprite2.SetPosition(tmp);
+
 
     if (hiding){
         hidingCounter -= deltaTime;
@@ -139,13 +140,9 @@ void SpaceShip::Damage(bool boom){
     }
 }
 
-void SpaceShip::Draw(sf::RenderWindow & render)
-{
+void SpaceShip::Draw(sf::RenderWindow & render){
     GameObject::Draw(render);
     if (accelerating){
-        float angle = orientation * PI / 180.0f;
-
-        
         render.Draw(sprite2);
     }
 }
